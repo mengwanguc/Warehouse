@@ -1,0 +1,77 @@
+<br><br>
+<!-- Inventory Replenishment -->
+<div class="container">
+  <h2 id="inventoryreplenishment">Inventory Replenishment</h2>
+
+  <p>You can add a new batch of items for storage using <code>POST /api/inventory</code>. When making the request, you must
+  include parameters <code>api_key</code>, <code>sku</code> and <code>qty</code>. Here is an example request made using <code>curl</code>:</p>
+
+  <pre><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10" http://localhost:3000/api/inventory</code></pre>
+
+  <p>If request successful, you will get an response containing updated inventory of the requested <code>sku</code>. Here is an example:</p>
+
+  <pre><code>{
+    "user_id": 1,
+    "qty": 551,
+    "id": 1,
+    "sku": "A123",
+    "status": "In Stock"
+}</code></pre>
+
+  <div class="alert alert-warning">
+    <strong>Warning:&nbsp&nbsp&nbsp</strong>Missing any of parameters <code>api_key</code>, <code>sku</code> and <code>qty</code> will cause an error response.
+  </div>
+  <div class="alert alert-warning">
+    <strong>Warning:&nbsp&nbsp&nbsp</strong>You can find your api_key from your <a href="/users/index">account</a>. Invalid <code>api_key</code> will cause an error response.
+  </div>
+  <div class="alert alert-warning">
+    <strong>Warning:&nbsp&nbsp&nbsp</strong><code>qty</code> must be a positive integer. Otherwise you may receive an error response.
+  </div>
+  <div class="alert alert-warning">
+    <strong>Warning:&nbsp&nbsp&nbsp</strong>You can store at most 2000 items for a particular sku. You will receive an error response
+    if you try to store more than 2000 items.
+  </div>
+</div>
+
+<br><br>
+
+<!-- Place Order for Shipment -->
+<div class="container">
+  <h2 id="placeorderforshipment">Place Order for Shipment</h2>
+
+  <p>You can make an order for shipment of a particulr SKU using <code>POST /api/orders</code>. When making the request, you must
+  include parameters <code>api_key</code>, <code>sku</code>, <code>qty</code> and <code>address</code>. Here is an example request made using <code>curl</code>:</p>
+
+  <pre><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10&amp;address=Chicago" http://localhost:3000/api/orders</code></pre>
+
+  <p>If request successful, you will get an response containing updated stock and shipment status of the requested <code>sku</code>. Here is an example:</p>
+
+  <pre><code>{
+    "result": "Order made successfully!",
+    "stock": {
+        "user_id": 1,
+        "qty": 539,
+        "id": 1,
+        "sku": "A123",
+        "status": "In Stock"
+    },
+    "pre_ship": {
+        "user_id": 1,
+        "qty": 184,
+        "id": 3,
+        "sku": "A123",
+        "status": "Preparing for Shipment"
+    }
+}</code></pre>
+
+  <div class="alert alert-warning">
+    <strong>Warning:&nbsp&nbsp&nbsp</strong>Missing any of parameters <code>api_key</code>, <code>sku</code>, <code>qty</code> or <code>address</code> will cause an error response.
+  </div>
+  <div class="alert alert-warning">
+    <strong>Warning:&nbsp&nbsp&nbsp</strong>You can find your api_key from your <a href="/users/index">account</a>. Invalid <code>api_key</code> will cause an error response.
+  </div>
+  <div class="alert alert-warning">
+    <strong>Warning:&nbsp&nbsp&nbsp</strong><code>qty</code> must be a positive integer, and should be no more than the current stock of <code>sku</code>.
+    Otherwise you may receive an error response.
+  </div>
+</div>

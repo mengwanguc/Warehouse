@@ -1,0 +1,65 @@
+.box {
+    width:800px;
+    height:400px;
+    position:fixed;
+    margin-left:-400px; /* half of width */
+    margin-top:-200px;  /* half of height */
+    top:50%;
+    left:50%;
+}
+
+.sign_up_box {
+    width:500px;
+    height:400px;
+    position:fixed;
+    margin-left:-250px; /* half of width */
+    margin-top:-200px;  /* half of height */
+    top:50%;
+    left:50%;
+}
+
+.profile_box {
+    width:500px;
+    height:400px;
+    position:fixed;
+    margin-left:-250px; /* half of width */
+    margin-top:-200px;  /* half of height */
+    top:50%;
+    left:50%;
+}
+
+
+.gray {
+  background-color:#d9d9d9;
+}
+
+
+pre, code {
+  font-family: monospace, monospace;
+}
+
+pre > code {
+  display: block;
+  padding: 5px;
+  word-wrap: normal;
+}
+
+pre {
+  overflow: auto;
+  background-color: #eee;
+}
+
+code {
+  background-color: rgba(238, 238, 238, .4);
+}
+
+/*pre{
+  margin-bottom: 10px;
+  overflow: auto;
+  width: auto;
+  padding: 5px;
+  background-color: #eee;
+  width: 650px!ie7;
+  padding-bottom: 20px!ie7;
+  max-height: 600px;
+}*/

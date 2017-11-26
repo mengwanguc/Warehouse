@@ -1,0 +1,13 @@
+User
+  username: string
+  password_digest: string
+  first_name: string
+  last_name: string
+  api_key: string
+
+
+Invent
+  user_id: integer
+  sku: string
+  status: string
+  qty: integer
