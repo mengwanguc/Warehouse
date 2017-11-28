@@ -8,7 +8,7 @@
 
   <pre><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10" http://localhost:3000/api/inventory</code></pre>
 
-  <p>If request successful, you will get an response containing updated inventory of the requested <code>sku</code>. Here is an example:</p>
+  <p>If request successful, you will get a 200 response containing updated inventory of the requested <code>sku</code>. Here is an example:</p>
 
   <pre><code>{
     "user_id": 1,
@@ -19,17 +19,14 @@
 }</code></pre>
 
   <div class="alert alert-warning">
-    <strong>Warning:&nbsp&nbsp&nbsp</strong>Missing any of parameters <code>api_key</code>, <code>sku</code> and <code>qty</code> will cause an error response.
-  </div>
-  <div class="alert alert-warning">
-    <strong>Warning:&nbsp&nbsp&nbsp</strong>You can find your api_key from your <a href="/users/index">account</a>. Invalid <code>api_key</code> will cause an error response.
-  </div>
-  <div class="alert alert-warning">
-    <strong>Warning:&nbsp&nbsp&nbsp</strong><code>qty</code> must be a positive integer. Otherwise you may receive an error response.
-  </div>
-  <div class="alert alert-warning">
-    <strong>Warning:&nbsp&nbsp&nbsp</strong>You can store at most 2000 items for a particular sku. You will receive an error response
-    if you try to store more than 2000 items.
+    <h4>Warnings:</h4>
+    <ul>
+      <li>Missing any of parameters <code>api_key</code>, <code>sku</code> and <code>qty</code> will cause a 406 response.</li>
+      <li>You can find your api_key from your <a href="/users/index">account</a>. Invalid <code>api_key</code> will cause a 406 response.</li>
+      <li><code>qty</code> must be a positive integer. Otherwise you may receive a 406 response.</li>
+      <li>You can store at most 2000 items for a particular sku. You will receive a 406 response
+      if you try to store more than 2000 items.</li>
+    </ul>
   </div>
 </div>
 
@@ -44,7 +41,7 @@
 
   <pre><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10&amp;address=Chicago" http://localhost:3000/api/orders</code></pre>
 
-  <p>If request successful, you will get an response containing updated stock and shipment status of the requested <code>sku</code>. Here is an example:</p>
+  <p>If request successful, you will get a 200 response containing updated stock and shipment status of the requested <code>sku</code>. Here is an example:</p>
 
   <pre><code>{
     "result": "Order made successfully!",
@@ -65,13 +62,12 @@
 }</code></pre>
 
   <div class="alert alert-warning">
-    <strong>Warning:&nbsp&nbsp&nbsp</strong>Missing any of parameters <code>api_key</code>, <code>sku</code>, <code>qty</code> or <code>address</code> will cause an error response.
-  </div>
-  <div class="alert alert-warning">
-    <strong>Warning:&nbsp&nbsp&nbsp</strong>You can find your api_key from your <a href="/users/index">account</a>. Invalid <code>api_key</code> will cause an error response.
-  </div>
-  <div class="alert alert-warning">
-    <strong>Warning:&nbsp&nbsp&nbsp</strong><code>qty</code> must be a positive integer, and should be no more than the current stock of <code>sku</code>.
-    Otherwise you may receive an error response.
+    <h4>Warning:</h4>
+    <ul>
+    <li>Missing any of parameters <code>api_key</code>, <code>sku</code>, <code>qty</code> or <code>address</code> will cause a 406 response.</li>
+    <li>You can find your api_key from your <a href="/users/index">account</a>. Invalid <code>api_key</code> will cause a 406 response.</li>
+    <li><code>qty</code> must be a positive integer, and should be no more than the current stock of <code>sku</code>.
+    Otherwise you may receive a 406 response.</li>
+    </ul>
   </div>
 </div>

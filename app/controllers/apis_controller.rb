@@ -3,12 +3,12 @@ class ApisController < ApplicationController
     if params["api_key"].present?
       @user = User.find_by(api_key: params["api_key"])
       if @user.blank?
-        render :json => { :errors => "Invalid api key!" }, :status => 422
+        render :json => { :errors => "Invalid api key!" }, :status => 406
       else
         render json:@user.invents
       end
     else
-      render :json => { :errors => "Missing api key!" }, :status => 422
+      render :json => { :errors => "Missing api key!" }, :status => 406
     end
   end
 
@@ -18,12 +18,12 @@ class ApisController < ApplicationController
     if params["api_key"].present?
       @user = User.find_by(api_key: params["api_key"])
       if @user.blank?
-        render :json => { :errors => "Invalid api key!" }, :status => 422
+        render :json => { :errors => "Invalid api key!" }, :status => 406
       else
         render json:@user.invents.where(sku: params["sku"])
       end
     else
-      render :json => { :errors => "Missing api key!" }, :status => 422
+      render :json => { :errors => "Missing api key!" }, :status => 406
     end
   end
 
@@ -31,20 +31,20 @@ class ApisController < ApplicationController
   # add stock
   def add_inventory
     unless params["api_key"].present?
-      render :json => { :errors => "Missing api key!" }, :status => 422
+      render :json => { :errors => "Missing api key!" }, :status => 406
     else
       unless params["sku"].present?
-        render :json => { :errors => "Missing sku!" }, :status => 422
+        render :json => { :errors => "Missing sku!" }, :status => 406
       else
         unless params["qty"].present?
-          render :json => { :errors => "Missing qty!" }, :status => 422
+          render :json => { :errors => "Missing qty!" }, :status => 406
         else
           unless params["qty"].to_i > 0
-            render :json => { :errors => "qty must be a positive integer!" }, :status => 400
+            render :json => { :errors => "qty must be a positive integer!" }, :status => 406
           else
             @user = User.find_by(api_key: params["api_key"])
             if @user.blank?
-              render :json => { :errors => "Invalid api key!" }, :status => 422
+              render :json => { :errors => "Invalid api key!" }, :status => 406
             else
               @inventory = @user.invents.find_by(sku: params["sku"], status: "In Stock")
               if @inventory.blank?
@@ -57,12 +57,12 @@ class ApisController < ApplicationController
                 @inventory.qty += params['qty'].to_i
               end
               if @inventory.qty > 2000
-                render :json => { :errors => "You can store at most 2000 items for a particular SKU!" }, :status => 400
+                render :json => { :errors => "You can store at most 2000 items for a particular SKU!" }, :status => 406
               else
                 if @inventory.save
                   render json: @inventory
                 else
-                  render :json => { :errors => @inventory.errors.full_messages }, :status => 400
+                  render :json => { :errors => @inventory.errors.full_messages }, :status => 406
                 end
               end
             end
@@ -77,27 +77,27 @@ class ApisController < ApplicationController
   # place order for shipment
   def place_order
     unless params["api_key"].present?
-      render :json => { :errors => "Missing api key!" }, :status => 422
+      render :json => { :errors => "Missing api key!" }, :status => 406
     else
       unless params["sku"].present?
-        render :json => { :errors => "Missing sku!" }, :status => 422
+        render :json => { :errors => "Missing sku!" }, :status => 406
       else
         unless params["qty"].present?
-          render :json => { :errors => "Missing qty!" }, :status => 422
+          render :json => { :errors => "Missing qty!" }, :status => 406
         else
           unless params["qty"].to_i > 0
-            render :json => { :errors => "qty must be a positive integer!" }, :status => 400
+            render :json => { :errors => "qty must be a positive integer!" }, :status => 406
           else
             unless params["address"].present?
-              render :json => { :errors => "Missing address!" }, :status => 422
+              render :json => { :errors => "Missing address!" }, :status => 406
             else
               @user = User.find_by(api_key: params["api_key"])
               if @user.blank?
-                render :json => { :errors => "Invalid api key!" }, :status => 422
+                render :json => { :errors => "Invalid api key!" }, :status => 406
               else
                 @stock = @user.invents.find_by(sku: params["sku"], status: "In Stock")
                 if @stock.blank? || @stock.qty < params["qty"].to_i
-                  render :json => { :errors => "Only #{if @stock.blank? then 0 else @stock.qty end} items in stock! Please order less!" }, :status => 400
+                  render :json => { :errors => "Only #{if @stock.blank? then 0 else @stock.qty end} items in stock! Please order less!" }, :status => 406
                 else
                   @stock.qty -= params["qty"].to_i
                   @shipment = @user.invents.find_by(sku: params["sku"], status: "Preparing for Shipment")
