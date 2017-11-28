@@ -6,7 +6,11 @@ class SessionsController < ApplicationController
   end
 
   def new
-
+    if session["user_id"].blank?
+      render "new"
+    else
+      redirect_to '/users/index'
+    end
   end
 
   def create

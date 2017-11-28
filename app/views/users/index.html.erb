@@ -17,4 +17,11 @@
     <p style="font-size:20px;">API key   :
       <%= text_field_tag "api_key", @user.api_key, class: "form-control", type: "text", disabled: "disabled" %>
   </div>
+
+  <br>
+  <%= form_tag "/delete_account" do %>
+    <p>
+      <%= submit_tag "Delete Account", class: "btn btn-lg btn-primary btn-block", onclick: "return confirm('Are you sure?')" %>
+    </p>
+  <% end %>
 </div>

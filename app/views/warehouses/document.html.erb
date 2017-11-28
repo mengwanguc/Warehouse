@@ -1,3 +1,142 @@
+<br>
+<h1>Documentation</h1>
+<br>
+<div class="container">
+  <h2>Overview</h2>
+  Welcome to Warehouse Fulfillment Center! Using this web service, you can store items in the warehouse, ship items to customers,
+  and reach the current inventory status of your items at any time.
+</div>
+
+<br><br>
+<div class="container">
+  <h2>Getting started</h2>
+  <p>In order to use our web service, you will need to get an api key.</p>
+  <ul>
+    <li>
+      <h5>New users</h5>
+      <p>If you don't have an account, you will first need to <a href="/users/new">sign up</a>. After that, you will be automatically directed
+      to a <a href="/users/index">profile</a> web page where you can get your api key.</p>
+    </li>
+    <li>
+      <h5>Already have an account</h5>
+      <p>If you already have an account, you can get your api key <a href="/users/index">here</a>. You may need to
+        <a href="/login">log in</a> first.</p>
+    </li>
+    <li>
+      <h5>Delete Account</h5>
+      <p>You can always choose to delete your account <a href="/users/index">here</a>. However, once your account is deleted,
+        your current api key can no longer be used.
+    </li>
+  </ul>
+</div>
+
+<br><br>
+<!-- Inventory status -->
+<div class="container">
+  <h2>Query for Inventory Status</h2>
+  <ul><li>
+  <h5>Endpoint 1: <code>GET /api/inventory</code></h5>
+
+  <p>You can query for the current inventory status of your items using <code>GET /api/inventory</code>. When making the request, you must
+  include parameter <code>api_key</code>. Here is an example request made using <code>curl</code>:</p>
+
+  <pre class="prettyprint"><code>curl http://138.197.38.107:3000/api/inventory?api_key=b65717b492856ab90a9612191ea247c0d714a2ab</code></pre>
+
+  <p>If requested successfully, you will get a 200 response containing current inventory status. Here is an example:</p>
+
+  <pre class="prettyprint"><code>[
+    {
+        "id": 1,
+        "sku": "A123",
+        "status": "In Stock",
+        "qty": 600,
+        "user_id": 1
+    },
+    {
+        "id": 2,
+        "sku": "A123",
+        "status": "Shipped",
+        "qty": 300,
+        "user_id": 1
+    },
+    {
+        "id": 3,
+        "sku": "A123",
+        "status": "Preparing for Shipment",
+        "qty": 60,
+        "user_id": 1
+    },
+    {
+        "id": 4,
+        "sku": "A123",
+        "status": "Returned in Good Condition",
+        "qty": 40,
+        "user_id": 1
+    },
+    {
+        "id": 5,
+        "sku": "A123",
+        "status": "Returned in Bad Condition",
+        "qty": 10,
+        "user_id": 1
+    },
+    {
+        "id": 6,
+        "sku": "B987",
+        "status": "In Stock",
+        "qty": 981,
+        "user_id": 1
+    },
+    {
+        "id": 7,
+        "sku": "B987",
+        "status": "Shipped",
+        "qty": 19,
+        "user_id": 1
+    }
+]</code></pre>
+</li>
+
+<li>
+<h5>Endpoint 2: <code>GET /api/inventory/{item sku}</code></h5>
+
+<p>When querying for inventory status, you can also specify a particular SKU using <code>GET /api/inventory/{item sku}</code>.
+In this way, you will get the inventory status of the requested SKU. When making the request, you should also
+include parameter <code>api_key</code>. Here is an example request made using <code>curl</code>:</p>
+
+<pre class="prettyprint"><code>curl http://138.197.38.107:3000/api/inventory/B987?api_key=b65717b492856ab90a9612191ea247c0d714a2ab</code></pre>
+
+<p>If requested successfully, you will get a 200 response containing current inventory status the requested SKU. Here is an example:</p>
+
+<pre class="prettyprint"><code>[
+    {
+        "id": 6,
+        "sku": "B987",
+        "status": "In Stock",
+        "qty": 981,
+        "user_id": 1
+    },
+    {
+        "id": 7,
+        "sku": "B987",
+        "status": "Shipped",
+        "qty": 19,
+        "user_id": 1
+    }
+]</code></pre>
+</li>
+  </ul>
+
+  <div class="alert alert-warning">
+    <h4>Warnings:</h4>
+    <ul>
+      <li>Missing parameter <code>api_key</code> or wrong <code>api_key</code> will cause a 406 response.
+        You can get your <code>api_key</code> <a href="/users/index">here</a>.</li>
+      <li>If no inventory was found, you will get an empty array like:   <pre class="prettyprint"><code>[]</code></pre></li>
+    </ul>
+  </div>
+</div>
+
 
 <br><br>
 <!-- Inventory Replenishment -->
@@ -7,9 +146,9 @@
   <p>You can add a new batch of items for storage using <code>POST /api/inventory</code>. When making the request, you must
   include parameters <code>api_key</code>, <code>sku</code> and <code>qty</code>. Here is an example request made using <code>curl</code>:</p>
 
-  <pre class="prettyprint"><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10" http://138.197.38.107:3000/api/inventory</code></pre class="prettyprint">
+  <pre class="prettyprint"><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10" http://138.197.38.107:3000/api/inventory</code></pre>
 
-  <p>If request successful, you will get a 200 response containing updated inventory of the requested <code>sku</code>. Here is an example:</p>
+  <p>If requested successfully, you will get a 200 response containing updated inventory of the requested <code>sku</code>. Here is an example:</p>
 
   <pre class="prettyprint"><code>{
     "user_id": 1,
@@ -17,7 +156,7 @@
     "id": 1,
     "sku": "A123",
     "status": "In Stock"
-}</code></pre class="prettyprint">
+}</code></pre>
 
   <div class="alert alert-warning">
     <h4>Warnings:</h4>
@@ -25,7 +164,7 @@
       <li>Missing any of parameters <code>api_key</code>, <code>sku</code> and <code>qty</code> will cause a 406 response.</li>
       <li>You can find your api_key from your <a href="/users/index">account</a>. Invalid <code>api_key</code> will cause a 406 response.</li>
       <li><code>qty</code> must be a positive integer. Otherwise you may receive a 406 response.</li>
-      <li>You can store at most 2000 items for a particular sku. You will receive a 406 response
+      <li>You can store <strong>at most 2000</strong> items for a particular sku. You will receive a 406 response
       if you try to store more than 2000 items.</li>
     </ul>
   </div>
@@ -40,27 +179,27 @@
   <p>You can make an order for shipment of a particulr SKU using <code>POST /api/orders</code>. When making the request, you must
   include parameters <code>api_key</code>, <code>sku</code>, <code>qty</code> and <code>address</code>. Here is an example request made using <code>curl</code>:</p>
 
-  <pre class="prettyprint"><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10&amp;address=Chicago" http://138.197.38.107:3000/api/orders</code></pre class="prettyprint">
+  <pre class="prettyprint"><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10&amp;address=Chicago" http://138.197.38.107:3000/api/orders</code></pre>
 
-  <p>If request successful, you will get a 200 response containing updated stock and shipment status of the requested <code>sku</code>. Here is an example:</p>
+  <p>If requested successfully, you will get a 200 response containing updated stock and shipment status of the requested <code>sku</code>. Here is an example:</p>
 
   <pre class="prettyprint"><code>{
     "result": "Order made successfully!",
     "stock": {
         "user_id": 1,
-        "qty": 539,
+        "qty": 580,
         "id": 1,
         "sku": "A123",
         "status": "In Stock"
     },
-    "pre class="prettyprint"_ship": {
+    "pre_ship": {
         "user_id": 1,
-        "qty": 184,
+        "qty": 80,
         "id": 3,
         "sku": "A123",
-        "status": "pre class="prettyprint"paring for Shipment"
+        "status": "Preparing for Shipment"
     }
-}</code></pre class="prettyprint">
+}</code></pre>
 
   <div class="alert alert-warning">
     <h4>Warning:</h4>
@@ -82,10 +221,10 @@
   <h2 id="javascriptapi">JavaScript Library</h2>
     <p>We provide a <a href="/api/js/inventory">JavaScript Library</a> for you to easily fetch inventory data from front-end. In order to
     use this API, you will need to include this HTML snippet:
-    <pre class="prettyprint"><code>&lt;script src="http://138.197.38.107:3000/api/js/inventory"&gt; &lt;/script&gt;</code></pre class="prettyprint"></p>
+    <pre class="prettyprint"><code>&lt;script src="http://138.197.38.107:3000/api/js/inventory"&gt; &lt;/script&gt;</code></pre></p>
     <p>Remember to also include an HTML snippet for jQuery if you have not done so:
-    <pre class="prettyprint"><code>&lt;script src="https://code.jquery.com/jquery-3.2.1.min.js"&gt; &lt;/script&gt;</code></pre class="prettyprint"></p>
-    <p>An example speak louder than a thousand words:</p>
+    <pre class="prettyprint"><code>&lt;script src="https://code.jquery.com/jquery-3.2.1.min.js"&gt; &lt;/script&gt;</code></pre></p>
+    <p>You may get a better sense of how to use this JavaScript library from the following example:</p>
     <pre class="prettyprint"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
@@ -118,6 +257,15 @@
 
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
+<div class="alert alert-warning">
+  <h4>Warning:</h4>
+  <ul>
+  <li>When creating a new <code>Warehouse</code>, be sure to include a valid <code>api_key</code>, otherwise you will get a 406 response.
+    You can find your api_key from your <a href="/users/index">account</a>.</li>
+  <li>When using <code>warehouse.skuItem("A123")</code> method, if you forgot to include SKU or used a wrong SKU,
+  you will get an empty array.</li>
+  </ul>
+</div>
 </div>
 
 <br><br>

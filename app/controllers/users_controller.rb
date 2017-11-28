@@ -2,6 +2,11 @@ require 'digest/sha1'
 
 class UsersController < ApplicationController
   def new
+    if session["user_id"].blank?
+      render "new"
+    else
+      redirect_to '/users/index'
+    end
   end
 
   def create
@@ -29,5 +34,13 @@ class UsersController < ApplicationController
       @user = User.find_by(id: session["user_id"])
       render "index"
     end
+  end
+
+  def destroy
+    @user = User.find_by(id: session["user_id"])
+    @user.destroy
+    reset_session
+    flash[:success] = "Successfully destroyed your account!"
+    redirect_to "/"
   end
 end
