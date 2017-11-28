@@ -1,3 +1,4 @@
+
 <br><br>
 <!-- Inventory Replenishment -->
 <div class="container">
@@ -6,17 +7,17 @@
   <p>You can add a new batch of items for storage using <code>POST /api/inventory</code>. When making the request, you must
   include parameters <code>api_key</code>, <code>sku</code> and <code>qty</code>. Here is an example request made using <code>curl</code>:</p>
 
-  <pre><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10" http://localhost:3000/api/inventory</code></pre>
+  <pre class="prettyprint"><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10" http://138.197.38.107:3000/api/inventory</code></pre class="prettyprint">
 
   <p>If request successful, you will get a 200 response containing updated inventory of the requested <code>sku</code>. Here is an example:</p>
 
-  <pre><code>{
+  <pre class="prettyprint"><code>{
     "user_id": 1,
     "qty": 551,
     "id": 1,
     "sku": "A123",
     "status": "In Stock"
-}</code></pre>
+}</code></pre class="prettyprint">
 
   <div class="alert alert-warning">
     <h4>Warnings:</h4>
@@ -39,11 +40,11 @@
   <p>You can make an order for shipment of a particulr SKU using <code>POST /api/orders</code>. When making the request, you must
   include parameters <code>api_key</code>, <code>sku</code>, <code>qty</code> and <code>address</code>. Here is an example request made using <code>curl</code>:</p>
 
-  <pre><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10&amp;address=Chicago" http://localhost:3000/api/orders</code></pre>
+  <pre class="prettyprint"><code>curl --data "api_key=b65717b492856ab90a9612191ea247c0d714a2ab&amp;sku=A123&amp;qty=10&amp;address=Chicago" http://138.197.38.107:3000/api/orders</code></pre class="prettyprint">
 
   <p>If request successful, you will get a 200 response containing updated stock and shipment status of the requested <code>sku</code>. Here is an example:</p>
 
-  <pre><code>{
+  <pre class="prettyprint"><code>{
     "result": "Order made successfully!",
     "stock": {
         "user_id": 1,
@@ -52,14 +53,14 @@
         "sku": "A123",
         "status": "In Stock"
     },
-    "pre_ship": {
+    "pre class="prettyprint"_ship": {
         "user_id": 1,
         "qty": 184,
         "id": 3,
         "sku": "A123",
-        "status": "Preparing for Shipment"
+        "status": "pre class="prettyprint"paring for Shipment"
     }
-}</code></pre>
+}</code></pre class="prettyprint">
 
   <div class="alert alert-warning">
     <h4>Warning:</h4>
@@ -71,3 +72,52 @@
     </ul>
   </div>
 </div>
+
+
+
+
+<br><br>
+<!-- JavaScript API -->
+<div class="container">
+  <h2 id="javascriptapi">JavaScript Library</h2>
+    <p>We provide a <a href="/api/js/inventory">JavaScript Library</a> for you to easily fetch inventory data from front-end. In order to
+    use this API, you will need to include this HTML snippet:
+    <pre class="prettyprint"><code>&lt;script src="http://138.197.38.107:3000/api/js/inventory"&gt; &lt;/script&gt;</code></pre class="prettyprint"></p>
+    <p>Remember to also include an HTML snippet for jQuery if you have not done so:
+    <pre class="prettyprint"><code>&lt;script src="https://code.jquery.com/jquery-3.2.1.min.js"&gt; &lt;/script&gt;</code></pre class="prettyprint"></p>
+    <p>An example speak louder than a thousand words:</p>
+    <pre class="prettyprint"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Sample&lt;/title&gt;
+
+    &lt;script src="https://code.jquery.com/jquery-3.2.1.min.js" &gt;&lt;/script&gt;
+    &lt;script src="http://138.197.38.107:3000/api/js/inventory"&gt; &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+      &lt;div id="warehouse"&gt;
+        &lt;script&gt;
+          // Create new Warehouse using a valid api key
+          let warehouse = new Warehouse("b65717b492856ab90a9612191ea247c0d714a2ab")
+
+          // Gets current inventory status of all items
+          let items = warehouse.items()
+          // Access individual item properties,
+          // for example:
+          console.debug(items[0].sku)
+          console.debug(items[0].qty)
+
+          // Gets current inventory status of a particular item
+          let skuItem = warehouse.skuItem("A123")
+          console.debug(skuItem)
+        &lt;/script&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+
+<br><br>
