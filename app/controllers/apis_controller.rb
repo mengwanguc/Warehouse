@@ -1,4 +1,6 @@
 class ApisController < ApplicationController
+  protect_from_forgery except: :js_inventory
+
   def get_inventory
     if params["api_key"].present?
       @user = User.find_by(api_key: params["api_key"])
@@ -121,5 +123,10 @@ class ApisController < ApplicationController
         end
       end
     end
+  end
+
+
+  def js_inventory
+    render "inventory.js.erb"
   end
 end

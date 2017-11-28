@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   get '/api/inventory/:sku' => 'apis#get_sku_inventory'
   post '/api/inventory' => 'apis#add_inventory'
   post '/api/orders' => 'apis#place_order'
+  get 'api/js/inventory' => 'apis#js_inventory'
 
 end
