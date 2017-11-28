@@ -6,7 +6,7 @@ class Warehouse {
   items(){
     let items
     $.ajax({
-      url: "http://localhost:3000/api/inventory?api_key=" + this.apiKey,
+      url: "http://138.197.38.107:3000/api/inventory?api_key=" + this.apiKey,
       dataType: 'json',
       method: 'GET',
       success: function(data) {
@@ -23,7 +23,7 @@ class Warehouse {
   skuItem(sku){
     let item
     $.ajax({
-      url: "http://localhost:3000/api/inventory/" + sku + "?api_key=" + this.apiKey,
+      url: "http://138.197.38.107:3000/api/inventory/" + sku + "?api_key=" + this.apiKey,
       dataType: 'json',
       method: 'GET',
       success: function(data) {
@@ -35,13 +35,5 @@ class Warehouse {
       console.log(data);
     });
     return item
-  }
-}
-
-
-class Hello {
-  constructor(){}
-  say(){
-    console.log("Hello")
   }
 }
